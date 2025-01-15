@@ -38,7 +38,7 @@ export class SingleFileHistoryValidator {
             accept('warning', 'The PRJ must start with `PRJ` followed by a Number.', { node: project, property: 'prjnumber'});
         }
         if(!this.correctVersion(project.sdpversion)){
-            accept('warning', 'please write the Version in the following format: x.y or x.y.z', { node: project, property: 'sdpversion'});
+            accept('warning', 'please write the Version in the following Format: x.y or x.y.z', { node: project, property: 'sdpversion'});
         }
     }
 

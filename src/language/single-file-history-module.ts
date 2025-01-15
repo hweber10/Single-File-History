@@ -1,8 +1,9 @@
 import { type Module, inject } from 'langium';
-import { createDefaultModule, createDefaultSharedModule, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
+import { createDefaultModule, createDefaultSharedModule, PartialLangiumSharedServices, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
 import { SingleFileHistoryGeneratedModule, SingleFileHistoryGeneratedSharedModule } from './generated/module.js';
 import { SingleFileHistoryValidator, registerValidationChecks } from './single-file-history-validator.js';
 import { SingleFileHistoryCompletionProvider } from './single-file-history-completion.js';
+import { SingleFileHistoryCommandHandler } from './single-file-history-execute-command-handler.js';
 //import { SingleFileHistoryCompletionProvider } from './single-file-history-completion.js';
 
 /**
@@ -33,6 +34,12 @@ export const SingleFileHistoryModule: Module<SingleFileHistoryServices, PartialL
         CompletionProvider: (services) => new SingleFileHistoryCompletionProvider(services)
     }
 };
+
+export const SingleFileHistorySharedModule: Module<LangiumSharedServices, PartialLangiumSharedServices> = {
+    lsp: {
+        ExecuteCommandHandler: () => new SingleFileHistoryCommandHandler()
+    }
+}
 
 /**
  * Create the full set of services required by Langium.
