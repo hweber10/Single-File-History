@@ -5,7 +5,7 @@
         "grammar": "src/language/single-file-history.langium",
         "fileExtensions": [".yml"],
         "textMate": {
-            "out": "syntaxes/single-file-history.tmLanguage.json"
+            "out": "src/syntaxes/single-file-history.tmLanguage.json"
         },
         "monarch": {
             "out": "src/syntaxes/single-file-history.monarch.ts"

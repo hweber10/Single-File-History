@@ -82,7 +82,7 @@
             {
                 "language": "single-file-history",
                 "scopeName": "source.single-file-history",
-                "path": "syntaxes/single-file-history.tmLanguage.json"
+                "path": "src/syntaxes/single-file-history.tmLanguage.json"
             }
         ]
     },
