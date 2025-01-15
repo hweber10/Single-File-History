@@ -1,35 +1,33 @@
 grammar SingleFileHistory
 
 entry Model:
-    'version:' version = ID
-    'project:' project = Project
-    'history:' (history += History)*;
+    'Version:' version = ID
+    'Project:' project = Project
+    'History:' (history += History)*;
 
 Project:
-    'CBD-Number:' cbdnumber = ID
-    'PRJ-Number:' prjnumber = ID
-    'title:' title = STRING
-    'SDP-version:' sdpversion = ID;
+    'CBD-Number:' cbdnumber = STRING
+    'PRJ-Number:' prjnumber = STRING
+    'Title:' title = STRING
+    'SDP-Version:' sdpversion = ID;
 
 History:
-'-' 'ID:' id = ID
-    'Sub-project:' subproject = ID
-    'Del:' del = ID
+'-' 'ID:' id = STRING
+    'Sub-Project:' subproject = STRING
+    'Del:' del = STRING
     'Author:' author = STRING
     'Date:' date = ID
     'Topic:' topic = STRING
     'Description:' description = STRING
-    'Type:' type = ('Task' | 'Information')
+    'Type:' type = STRING
     'Duedate:' duedate = ID
     'Resp:' resp = STRING
-    'State:' state = ('Open' | 'Closed');
+    'State:' state = STRING;
 
 
 
 
 hidden terminal WS: /\s+/;
-terminal CBDNUMBER: /CBD\d+/;
-terminal PRJNUMBER: /PRJ\d+/;
 
 terminal STRING: /"(\\.|[^"\\])*"|'(\\.|[^'\\])*'/;
 terminal ID: /[\w\.\-]+/;

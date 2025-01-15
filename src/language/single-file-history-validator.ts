@@ -15,33 +15,54 @@ export function registerValidationChecks(services: SingleFileHistoryServices) {
     registry.register(checks, validator);
 }
 
+const correctTypes = ["Task", "Information"];
+const correctStates = ["Open", "Closed"];
+
 /**
  * Implementation of custom validations.
  */
 export class SingleFileHistoryValidator {
 
     checkForCorrectModelDefinition(model: Model, accept: ValidationAcceptor): void {
-        if(model.version && !this.correctVersion(model.version)){
-            accept('warning', 'please write the Version in the following format: x.y or x.y.z', { node: model, property: 'version'});
+        if(!this.correctVersion(model.version)){
+            accept('warning', 'please write the Version in the following Format: x.y or x.y.z', { node: model, property: 'version'});
         }
         this.checkForUniqueIDs(model, accept);
     }
 
-    checkForCorrectHistoryDefinition(history: History, accept: ValidationAcceptor): void {
-        if(history.date && !this.correctDate(history.date)){
-            accept('warning', 'please write your Date in the following format: YYYY-MM-DD', { node: history, property: 'date'});
+    checkForCorrectProjectDefinition(project: Project, accept: ValidationAcceptor): void {
+        if(!this.correctCBD(project.cbdnumber)){
+            accept('warning', 'The CBD must start with `CBD` followed by a Number.', { node: project, property: 'cbdnumber'});
         }
-        if(history.duedate && !this.correctDate(history.duedate)){
-            accept('warning', 'please write your DueDate in the following format: YYYY-MM-DD', { node: history, property: 'duedate'});
+        if(!this.correctPRJ(project.prjnumber)){
+            accept('warning', 'The PRJ must start with `PRJ` followed by a Number.', { node: project, property: 'prjnumber'});
         }
-        if(history.id && !this.correctID(history.id)){
-            accept('warning', "The ID must start with `H` followed by a number.", { node: history, property: 'id'});
-        }
-        if(history.del && !this.correctDel(history.del)){
-            accept('warning', "The DEL must start with one or more uppercase letters followed by a number.", { node: history, property: 'del'});
+        if(!this.correctVersion(project.sdpversion)){
+            accept('warning', 'please write the Version in the following format: x.y or x.y.z', { node: project, property: 'sdpversion'});
         }
     }
 
+    checkForCorrectHistoryDefinition(history: History, accept: ValidationAcceptor): void {
+        if(!this.correctDate(history.date)){
+            accept('warning', 'please write your Date in the following Format: YYYY-MM-DD', { node: history, property: 'date'});
+        }
+        if(!this.correctDate(history.duedate)){
+            accept('warning', 'please write your DueDate in the following Format: YYYY-MM-DD', { node: history, property: 'duedate'});
+        }
+        if(!this.correctID(history.id)){
+            accept('warning', "The ID must start with `H` followed by a Number.", { node: history, property: 'id'});
+        }
+        if(!this.correctDel(history.del)){
+            accept('warning', "The DEL must start with one or more uppercase Letters followed by a Number.", { node: history, property: 'del'});
+        }
+        if(!this.correctType(history.type)){
+            accept('warning', "The Type must be one of the following Items:\n"+correctTypes, { node: history, property: 'type'});
+        }
+        if(!this.correctState(history.state)){
+            accept('warning', "The State must be one of the following Items:\n"+correctStates, { node: history, property: 'state'});
+        }
+    }
+    
     checkForUniqueIDs(model: Model, accept: ValidationAcceptor): void {
         // create a set of visited functions
         // and report an error when we see one we've already seen
@@ -54,24 +75,20 @@ export class SingleFileHistoryValidator {
         });
     }
 
-    checkForCorrectProjectDefinition(project: Project, accept: ValidationAcceptor): void {
-        if(project.cbdnumber && !this.correctCBD(project.cbdnumber)){
-            accept('warning', 'The CBD must start with `CBD` followed by a number.', { node: project, property: 'cbdnumber'});
-        }
-        if(project.prjnumber && !this.correctPRJ(project.prjnumber)){
-            accept('warning', 'The CBD must start with `PRJ` followed by a number.', { node: project, property: 'prjnumber'});
-        }
-        if(project.sdpversion && !this.correctVersion(project.sdpversion)){
-            accept('warning', 'please write the Version in the following format: x.y or x.y.z', { node: project, property: 'sdpversion'});
-        }
+    correctType(type: string): boolean {
+        return correctTypes.includes(type);
     }
 
-    correctID(id: string): boolean{
+    correctState(state: string): boolean {
+        return correctStates.includes(state);
+    }
+
+    correctID(id: string): boolean {
         let regex = new RegExp("^H\\d+$");
         return regex.test(id);
     }
 
-    correctDel(del: string): boolean{
+    correctDel(del: string): boolean {
         let regex = new RegExp("^[A-Z]+\\d+");
         return regex.test(del);
     }
@@ -92,7 +109,7 @@ export class SingleFileHistoryValidator {
     }
 
     correctVersion(version: string): boolean {
-        let regex = new RegExp("^\\d+(\\.\\d+){1,2}$"); //des hier noch fertig schreiben..
+        let regex = new RegExp("^\\d+(\\.\\d+){1,2}$");
         return regex.test(version);
     }
 
