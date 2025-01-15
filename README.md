@@ -11,7 +11,7 @@ It was created with the Yeoman Generator.
 # Installation of the npm Packages
 npm i
 # Generate the Language Files
-npm run langium
+npm run langium:generate
 # Build the Language Files
 npm run build
 ```
