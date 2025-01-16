@@ -3,7 +3,7 @@
     "languages": [{
         "id": "single-file-history",
         "grammar": "src/language/single-file-history.langium",
-        "fileExtensions": [".yml"],
+        "fileExtensions": [".yaml"],
         "textMate": {
             "out": "src/syntaxes/single-file-history.tmLanguage.json"
         },

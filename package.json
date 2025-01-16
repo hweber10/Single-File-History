@@ -73,7 +73,7 @@
                     "single-file-history"
                 ],
                 "extensions": [
-                    ".yml"
+                    ".yaml"
                 ],
                 "configuration": "./language-configuration.json"
             }
