@@ -1,6 +1,7 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
 import { SingleFileHistoryAstType, History, Project, Model } from './generated/ast.js';
 import type { SingleFileHistoryServices } from './single-file-history-module.js';
+const validateDate = require("validate-date");
 /**
  * Register custom validation checks.
  */
@@ -43,11 +44,15 @@ export class SingleFileHistoryValidator {
     }
 
     checkForCorrectHistoryDefinition(history: History, accept: ValidationAcceptor): void {
-        if(!this.correctDate(history.date)){
+        if(!this.correctDateFormat(history.date)){
             accept('warning', 'please write your Date in the following Format: YYYY-MM-DD', { node: history, property: 'date'});
+        }else if(!this.correctDate(history.date)){
+            accept('warning', 'please enter a existing Date.', { node: history, property: 'date'});
         }
-        if(!this.correctDate(history.duedate)){
+        if(!this.correctDateFormat(history.duedate)){
             accept('warning', 'please write your DueDate in the following Format: YYYY-MM-DD', { node: history, property: 'duedate'});
+        }else if(!this.correctDate(history.duedate)){
+            accept('warning', 'please enter a existing Date.', { node: history, property: 'duedate'});
         }
         if(!this.correctID(history.id)){
             accept('warning', "The ID must start with `H` followed by a Number.", { node: history, property: 'id'});
@@ -75,6 +80,10 @@ export class SingleFileHistoryValidator {
         });
     }
 
+    correctDate(date: string): boolean {
+        return validateDate(date, "boolean", "yyyy-mm-dd");
+    }
+
     correctType(type: string): boolean {
         return correctTypes.includes(type);
     }
@@ -93,7 +102,7 @@ export class SingleFileHistoryValidator {
         return regex.test(del);
     }
 
-    correctDate(date: string): boolean {
+    correctDateFormat(date: string): boolean {
         let regex = new RegExp("^\\d{4}\\-\\d{2}\\-\\d{2}$");
         return regex.test(date);
     }
