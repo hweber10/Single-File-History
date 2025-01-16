@@ -1,7 +1,7 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
 import { SingleFileHistoryAstType, History, Project, Model } from './generated/ast.js';
 import type { SingleFileHistoryServices } from './single-file-history-module.js';
-const validateDate = require("validate-date");
+import validator from "validator";
 /**
  * Register custom validation checks.
  */
@@ -81,7 +81,7 @@ export class SingleFileHistoryValidator {
     }
 
     correctDate(date: string): boolean {
-        return validateDate(date, "boolean", "yyyy-mm-dd");
+        return validator.isDate(date, {format: "YYYY-MM-DD", strictMode: true, delimiters: ['-']});
     }
 
     correctType(type: string): boolean {

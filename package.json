@@ -34,13 +34,14 @@
         "monaco-editor": "npm:@codingame/monaco-vscode-editor-api@~3.2.3",
         "monaco-editor-wrapper": "~4.0.2",
         "monaco-languageclient": "~8.1.1",
-        "validate-date": "^2.1.0",
+        "validator": "^13.12.0",
         "vscode-languageclient": "~9.0.1",
         "vscode-languageserver": "~9.0.1"
     },
     "devDependencies": {
         "@codingame/esbuild-import-meta-url-plugin": "~1.0.2",
         "@types/node": "^18.0.0",
+        "@types/validator": "^13.12.2",
         "@types/vscode": "~1.67.0",
         "@typescript-eslint/eslint-plugin": "~7.3.1",
         "@typescript-eslint/parser": "~7.3.1",
